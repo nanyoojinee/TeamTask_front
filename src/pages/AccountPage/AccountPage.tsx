@@ -1,16 +1,42 @@
-// pages/AccountPage/AccountPage.tsx
-import React from 'react';
-// 필요한 경우 계정 관련 컴포넌트나 함수를 임포트합니다.
+// LoginPage.tsx
+import React from "react";
+import styled from "styled-components";
 
-const AccountPage = () => {
-  // 계정 정보를 불러오거나 수정하는 로직을 여기에 추가할 수 있습니다.
+const LoginContainer = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+`;
+
+const GoogleLoginButton = styled.button`
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #357ae8;
+  }
+`;
+
+const LoginPage: React.FC = () => {
+  const handleGoogleLogin = (): void => {
+    const googleLoginUrl: string = `http://localhost:5001/auth/google-redirect`;
+    window.location.href = googleLoginUrl;
+  };
 
   return (
-    <div>
-      <h1>Account Settings</h1>
-      {/* 계정 정보를 보여주거나 수정할 수 있는 폼을 여기에 렌더링합니다. */}
-    </div>
+    <LoginContainer>
+      <GoogleLoginButton onClick={handleGoogleLogin}>
+        구글 로그인하기
+      </GoogleLoginButton>
+    </LoginContainer>
   );
 };
 
-export default AccountPage;
+export default LoginPage;

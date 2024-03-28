@@ -72,7 +72,7 @@ const Sidebar: React.FC = () => {
             <MenuHeading>프로젝트</MenuHeading>
             <Divider />
             <MenuLink to="/dashboard">대시보드</MenuLink>
-            <MenuLink to="/projects">프로젝트 조회/생성</MenuLink>
+            <MenuLink to="/project">프로젝트 조회/생성</MenuLink>
             <MenuLink to="/production">생산/납품관리</MenuLink>
           </MenuBox>
           <MenuBox>

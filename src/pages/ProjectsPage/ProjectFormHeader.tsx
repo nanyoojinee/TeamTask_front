@@ -26,7 +26,6 @@ export const ProjectFormHeader = () => {
       <HeaderItem>작성단계</HeaderItem>
       <HeaderItem>프로젝트ID</HeaderItem>
       <HeaderItem flexValue={2}>고객사</HeaderItem>
-
       <HeaderItem>담당PM</HeaderItem>
       <HeaderItem flexValue={1.2}>상태</HeaderItem>
       <HeaderItem flexValue={2}>진행단계</HeaderItem>

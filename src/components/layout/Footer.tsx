@@ -1,6 +1,6 @@
 // components/layout/Footer.tsx
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const FooterContainer = styled.footer`
   background: #333;
@@ -10,11 +10,7 @@ const FooterContainer = styled.footer`
 `;
 
 const Footer: React.FC = () => {
-  return (
-    <FooterContainer>
-      © 2023 MyApp. All rights reserved.
-    </FooterContainer>
-  );
+  return <FooterContainer>© 2024 MyApp. All rights reserved.</FooterContainer>;
 };
 
 export default Footer;

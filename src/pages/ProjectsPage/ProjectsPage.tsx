@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 // 필요한 아이콘 라이브러리를 임포트합니다.
 import { FaSearch } from "react-icons/fa"; // 예시로 react-icons 사용
-import { Routes, Route, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ProjectForm, Project } from "./ProjectForm";
-import { ProjectFormHeader } from "./ProjectFormHeader";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../app/store";
+import { getProjects } from "../../features/projects/projectsSlice";
+import { ProjectForm } from "./ProjectForm";
+import { CreateProjectModal } from "./CreateProjectModal";
+import { Project } from "../../types/index";
+import { AppDispatch } from "../../app/store";
 const Container = styled.div`
   padding: 1rem;
 `;
@@ -103,64 +107,31 @@ const DetailItem = styled.span<DetailItemProps>`
     padding || "0px"}; // Use provided padding or default
   display: inline-block;
 `;
-const projects: Project[] = [
-  {
-    id: 1,
-    writingStage: "1차대기",
-    projectId: "24-DS-012",
-    customer: "씨제이올리브네트웍스",
-    pm: "이지현",
-    status: "진행중",
-    progressStage: "법률 이슈 검토",
-    constructionStage: "생산 준비",
-    lastUpdate: "4시간 전",
-  },
-  // 여기에 추가 프로젝트 데이터를 넣을 수 있습니다.
-  {
-    id: 2,
-    writingStage: "2차대기",
-    projectId: "24-DS-011",
-    customer: "업무흐름도",
-    pm: "이지현",
-    status: "진행중",
-    progressStage: "법률 이슈 검토",
-    constructionStage: "생산 준비",
-    lastUpdate: "4시간 전",
-  },
-  {
-    id: 3,
-    writingStage: "1차대기",
-    projectId: "24-DS-019",
-    customer: "씨드로닉스",
-    pm: "이지현",
-    status: "진행중",
-    progressStage: "법률 이슈 검토",
-    constructionStage: "생산 준비",
-    lastUpdate: "1시간 전",
-  },
-  {
-    id: 4,
-    writingStage: "3차대기",
-    projectId: "24-DS-016",
-    customer: "삼성sds",
-    pm: "정유진",
-    status: "진행중",
-    progressStage: "법률 이슈 검토",
-    constructionStage: "생산 준비",
-    lastUpdate: "1시간 전",
-  },
-];
 
 const ProjectsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [viewType, setViewType] = useState("list"); // "list", "card", "board" 중 하나
   const navigate = useNavigate();
+
+  const dispatch: AppDispatch = useDispatch();
+  const projects: Project[] = useSelector(
+    (state: RootState) => state.projects.list
+  ); // 상태 선택자를 이용하여 프로젝트 목록 가져오기
+
+  useEffect(() => {
+    dispatch(getProjects()); // 페이지가 렌더링될 때 프로젝트 목록을 가져오는 액션 디스패치
+  }, [dispatch]); // useEffect의 의존성 배열에 dispatch 추가
+
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
   const handleCreateProject = () => {
     navigate("/path-to-create-project"); // Update this path as necessary
   };
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
   const showMainView = () => setViewType("list");
   const showCardView = () => setViewType("card");
   const showBoardView = () => setViewType("board");
@@ -181,7 +152,8 @@ const ProjectsPage = () => {
     <Container>
       <Header>
         <h1>프로젝트 조회/생성</h1>
-        <StyledButton>+ 프로젝트 생성</StyledButton>
+        <StyledButton onClick={handleOpenModal}>+ 프로젝트 생성</StyledButton>
+        <CreateProjectModal showModal={showModal} onClose={handleCloseModal} />
       </Header>
       <ViewSelector>
         <StyledButton onClick={showMainView}>메인</StyledButton>

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IoIosNotificationsOutline } from "react-icons/io";
 
 const HeaderContainer = styled.header`
   background: #eceff7;
-  color: #333; /* 텍스트 색상 변경 */
+  color: #333;
   height: 5vh;
   display: flex;
   justify-content: space-between;
@@ -18,7 +18,7 @@ const Logo = styled.div`
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  font-size: 1rem; /* 적절한 텍스트 크기 설정 */
+  font-size: 1rem;
 `;
 
 const UserName = styled.div`
@@ -33,18 +33,29 @@ const IconContainer = styled.span`
   margin-left: 10px;
   display: flex;
   align-items: center;
-  font-size: 1.5rem; /* 아이콘 크기 설정 */
+  font-size: 1.5rem;
   margin-right: 1rem;
 `;
 
 const Header: React.FC = () => {
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const userProfileString = localStorage.getItem("userProfile");
+    if (userProfileString) {
+      const userProfile = JSON.parse(userProfileString);
+      if (userProfile && userProfile.name) {
+        setUserName(userProfile.name);
+      }
+    }
+  }, []);
+
   return (
     <HeaderContainer>
       <Logo>MyApp</Logo>
       <UserInfo>
         <UserName>
-          정유진님 반갑습니다 🙌
-          {/* <IconContainer>🙌</IconContainer> */}
+          {userName ? `${userName}님 반갑습니다 🙌` : "반갑습니다 🙌"}
         </UserName>
         <IconContainer>
           <IoIosNotificationsOutline />
