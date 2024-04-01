@@ -4,6 +4,8 @@ export interface User {
   name: string;
   email: string;
   role: "admin" | "user" | "guest";
+  position: string | null;
+  team: number | null;
 }
 
 // export interface Project {
@@ -40,4 +42,11 @@ export interface UpdateProject {
   progressStage: string | null;
   buildStage: string | null;
   creationStage: string | null;
+}
+// types/index.ts 파일에 추가
+export interface AccountState {
+  userInfo: User | null;
+  userProjects: Project[];
+  isLoading: boolean;
+  error: string | null;
 }

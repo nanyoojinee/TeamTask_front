@@ -1,15 +1,10 @@
-import { get, post, put } from "./index"; // 수정된 API 함수를 임포트합니다.
+import { get, post, put, patch } from "./index"; // 수정된 API 함수를 임포트합니다.
+import { User, Project } from "../types/index";
 
 // 사용자 정보 타입 정의
-interface UserInfo {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}
 
 // 계정 정보 조회
-export const fetchAccountInfo = async (userId: number): Promise<UserInfo> => {
+export const fetchAccountInfo = async (userId: number): Promise<User> => {
   const response = await get(`/accounts/${userId}`);
   return response.data;
 };
@@ -18,7 +13,7 @@ export const fetchAccountInfo = async (userId: number): Promise<UserInfo> => {
 export const updateAccountRole = async (
   userId: number,
   newRole: string
-): Promise<UserInfo> => {
+): Promise<User> => {
   const response = await put(`/accounts/${userId}`, {
     role: newRole,
   });
@@ -29,9 +24,42 @@ export const updateAccountRole = async (
 export const updateAccountLevel = async (
   userId: number,
   newLevel: string
-): Promise<UserInfo> => {
+): Promise<User> => {
   const response = await put(`/accounts/${userId}/level`, {
     level: newLevel,
   });
+  return response.data;
+};
+// 사용자 프로필 조회
+export const fetchUserProfile = async (): Promise<User> => {
+  const response = await get(`/user/profile`);
+  console.log(response.data);
+  return response.data;
+};
+
+// 사용자 정보 수정
+export const updateUser = async (
+  userId: number,
+  userInfo: Partial<User>
+): Promise<User> => {
+  const response = await patch(`/user/${userId}`, userInfo);
+
+  return response.data;
+};
+
+// 사용자가 속한 프로젝트 조회
+export const fetchUserProjects = async (): Promise<Project[]> => {
+  const response = await get(`/user/project`);
+  return response.data;
+};
+// 모든 사용자 정보 조회
+export const fetchAllUsers = async (): Promise<User[]> => {
+  const response = await get(`/user`);
+  return response.data;
+};
+
+// 특정 팀에 속한 사용자 정보 조회
+export const fetchUsersByTeam = async (teamId: number): Promise<User[]> => {
+  const response = await get(`/user/${teamId}`);
   return response.data;
 };

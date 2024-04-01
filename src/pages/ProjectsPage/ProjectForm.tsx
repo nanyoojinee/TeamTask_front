@@ -79,15 +79,26 @@ export const ProjectForm = ({
 }) => {
   const navigate = useNavigate(); // Use the useNavigate hook
   const calculateTimeDiff = (updatedAt: string, createdAt: string) => {
-    const updatedAtDate = new Date(updatedAt).getTime(); // .getTime()으로 숫자 타입 확보
-    const currentDate = new Date(createdAt).getTime(); // .getTime()으로 숫자 타입 확보
-    const diffInMs = updatedAtDate - currentDate;
-    const diffInHours = diffInMs / (1000 * 60 * 60);
+    const updatedAtDate = new Date(updatedAt).getTime();
+    const currentDate = new Date().getTime(); // 현재 시간으로 변경
+    const diffInMs = currentDate - updatedAtDate;
+    const diffInMinutes = diffInMs / (1000 * 60);
+    const diffInHours = diffInMinutes / 60;
+    const diffInDays = diffInHours / 24;
 
-    if (Math.floor(diffInHours) <= 0) {
-      return "방금"; // 0시간 전이면 '방금'으로 표시
+    if (diffInMinutes < 1) {
+      return "방금";
+    } else if (diffInMinutes < 60) {
+      return `${Math.floor(diffInMinutes)}분 전`;
+    } else if (diffInHours < 24) {
+      return `${Math.floor(diffInHours)}시간 전`;
+    } else if (diffInDays < 2) {
+      return "어제";
     } else {
-      return `${Math.floor(diffInHours)} 시간 전`; // 소수점 이하를 버림하고 "시간 전" 텍스트 추가
+      const date = new Date(updatedAt);
+      return `${date.getFullYear().toString().slice(2)}/${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}/${date.getDate().toString().padStart(2, "0")}`;
     }
   };
   const handleNavigate = (projectId: any) => {

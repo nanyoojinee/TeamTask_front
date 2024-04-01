@@ -4,6 +4,8 @@ import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProjectsPage from "../pages/ProjectsPage/ProjectsPage";
 import ProjectDetailPage from "../pages/ProjectsPage/ProjectDetailPage";
 import AccountPage from "../pages/AccountPage/AccountPage";
+import AccountUsers from "../pages/AccountPage/AccountUsersPage";
+
 import ResourceChartPage from "../pages/ResourceChartPage/ResourceChartPage";
 import LoginRedirectPage from "../pages/AccountPage/LoginRedirectPage";
 import AccountTeamPage from "../pages/AccountPage/AccountTeamPage";
@@ -38,6 +40,7 @@ function App() {
           <Route path="/resource" element={<ResourceChartPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/account/team" element={<AccountTeamPage />} />
+          <Route path="/account-management" element={<AccountUsers />} />
           <Route path="/auth/google-redirect" element={<LoginRedirectPage />} />
         </Routes>
       </MainContent>
