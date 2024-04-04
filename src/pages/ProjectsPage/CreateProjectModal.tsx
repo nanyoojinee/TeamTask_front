@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { addProject } from "../../api/projectsModalApi";
 import { ProjectData } from "../../types/index";
@@ -70,7 +70,8 @@ const SubmitButton = styled.button`
 export const CreateProjectModal: React.FC<{
   showModal: boolean;
   onClose: () => void;
-}> = ({ showModal, onClose }) => {
+  onCreateSuccess: () => void;
+}> = ({ showModal, onClose, onCreateSuccess }) => {
   const [projectId, setProjectId] = useState("");
   const [client, setClient] = useState(""); // 'customer'를 'client'로 이름 변경
   const [managerId, setManagerId] = useState("");
@@ -91,6 +92,7 @@ export const CreateProjectModal: React.FC<{
         };
 
         await addProject(projectData);
+        onCreateSuccess();
         alert("프로젝트가 생성되었습니다!");
         // Reset form and close modal
         closeModal();

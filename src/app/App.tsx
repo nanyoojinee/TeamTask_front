@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProjectsPage from "../pages/ProjectsPage/ProjectsPage";
 import ProjectDetailPage from "../pages/ProjectsPage/ProjectDetailPage";
-import AccountPage from "../pages/AccountPage/AccountPage";
+import AccountPage from "../pages/AccountPage/AccountTeamPage";
 import AccountUsers from "../pages/AccountPage/AccountUsersPage";
-
+import LogoutPage from "../pages/LoginPage/LogoutPage";
 import ResourceChartPage from "../pages/ResourceChartPage/ResourceChartPage";
-import LoginRedirectPage from "../pages/AccountPage/LoginRedirectPage";
+import LoginRedirectPage from "../pages/LoginPage/LoginRedirectPage";
 import AccountTeamPage from "../pages/AccountPage/AccountTeamPage";
 import GlobalStyle from "../styles/GlobalStyle";
 import Sidebar from "../components/layout/Sidebar";
@@ -39,6 +39,7 @@ function App() {
           <Route path="/project/:id" element={<ProjectDetailPage />} />
           <Route path="/resource" element={<ResourceChartPage />} />
           <Route path="/account" element={<AccountPage />} />
+          <Route path="/logout" element={<LogoutPage />} />
           <Route path="/account/team" element={<AccountTeamPage />} />
           <Route path="/account-management" element={<AccountUsers />} />
           <Route path="/auth/google-redirect" element={<LoginRedirectPage />} />

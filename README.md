@@ -1,46 +1,44 @@
-# Getting Started with Create React App
+백오피스용 웹 개발 프로젝트 README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+프로젝트 개요
+이 프로젝트는 데이터 사이언스(DS) 팀 내에서 사용될 백오피스 웹 애플리케이션 개발을 위한 것입니다. 프론트엔드는 React, TypeScript, Styled-components를 사용하여 개발하고, 백엔드는 NestJS와 PostgreSQL 데이터베이스를 활용합니다. 이 시스템은 프로젝트 관리, 리소스 차트 관리, 계정 관리 및 구글 계정을 이용한 회원 가입 기능을 제공합니다.
 
-## Available Scripts
+기능 목록
 
-In the project directory, you can run:
+1. 프로젝트 관리
+   대시보드: 전체 프로젝트 현황과 진행 상태를 필터별로 조회 가능한 인터페이스 제공.
+   프로젝트 조회/생성: 사용자는 프로젝트의 기본 정보(이름, 설명, 기간, 담당자 등)를 등록, 조회 및 수정할 수 있습니다.
+   데이터 생산/납품 입력: 데이터 생산 및 납품 관련 정보의 입력, 조회, 수정, 변경 기능 지원.
+2. 리소스 차트
+   대시보드: 리소스 사용 현황과 예측 정보를 필터별로 조회할 수 있는 기능.
+   리소스 입력: 리소스 관련 정보의 입력, 조회, 수정 및 승인, 반려 처리 기능 포함.
+3. 계정 관리
+   계정 관리: 사용자 계정 조회, 권한 변경, 계정 등급 관리 기능 포함.
+4. 가입
+   1. 구글 계정 연동 가입: 구글 계정을 이용한 로그인 및 회원 가입 프로세스 구현.
 
-### `npm start`
+초기 설정 과정
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. 시스템 요구사항
+   프론트엔드: React, TypeScript, Styled-components
+   백엔드: NestJS
+   데이터베이스: PostgreSQL
+2. 환경 설정
+   1. 프론트엔드 설정
+      1. React, TypeScript, Styled-components 설치
+         Node.js가 설치되어 있는지 확인 후, create-react-app을 이용하여 React 프로젝트를 TypeScript 템플릿으로 생성.
+      2. styled-components를 프로젝트에 추가하여 스타일링.
+   2. 백엔드 설정
+      1. NestJS 설치 및 설정
+      2. Node.js 환경 설정 후, NestJS CLI를 이용하여 백엔드 프로젝트 생성.
+3. 필요한 모듈 및 미들웨어 구성.
+   1. 데이터베이스 설정
+      1. PostgreSQL 설치 및 데이터베이스 생성
+      2. PostgreSQL을 설치하고, 필요한 데이터베이스 및 사용자를 설정.
+   2. 배포 과정
+      1. 버전 관리: Git을 사용하여 소스 코드 버전 관리.
+      2. CI/CD 파이프라인 구축: GitHub Actions, Jenkins 등을 활용하여 자동화된 테스트, 빌드 및 배포 프로세스 구축.
+   3. 사용자 권한 및 계정 설정
+      1. 초기 관리자 계정을 통해 시스템에 접속하고, 다른 사용자 계정에 대한 권한 및 계정 등급을 설정합니다.
+   4. 마무리
+      1. 이 문서는 React, TypeScript, Styled-components를 사용하는 프론트엔드와 NestJS 및 PostgreSQL을 사용하는 백엔드로 구성된 백오피스 웹 애플리케이션 개발 프로젝트의 개요, 기능 목록 및 초기 설정 과정을 요약한 것입니다. 각 단계별 상세한 설정 방법은 프로젝트 문서의 해당 섹션을 참조하시기 바랍니다.

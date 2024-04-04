@@ -117,7 +117,9 @@ const ProjectsPage = () => {
   const projects: Project[] = useSelector(
     (state: RootState) => state.projects.list
   ); // 상태 선택자를 이용하여 프로젝트 목록 가져오기
-
+  const reloadProjects = () => {
+    dispatch(getProjects());
+  };
   useEffect(() => {
     dispatch(getProjects()); // 페이지가 렌더링될 때 프로젝트 목록을 가져오는 액션 디스패치
   }, [dispatch]); // useEffect의 의존성 배열에 dispatch 추가
@@ -153,7 +155,11 @@ const ProjectsPage = () => {
       <Header>
         <h1>프로젝트 조회/생성</h1>
         <StyledButton onClick={handleOpenModal}>+ 프로젝트 생성</StyledButton>
-        <CreateProjectModal showModal={showModal} onClose={handleCloseModal} />
+        <CreateProjectModal
+          showModal={showModal}
+          onClose={handleCloseModal}
+          onCreateSuccess={reloadProjects}
+        />
       </Header>
       <ViewSelector>
         <StyledButton onClick={showMainView}>메인</StyledButton>
