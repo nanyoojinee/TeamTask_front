@@ -39,7 +39,7 @@ const IconContainer = styled.span`
 
 const Header: React.FC = () => {
   const [userName, setUserName] = useState<string | null>(null);
-
+  console.log(localStorage);
   useEffect(() => {
     const userProfileString = localStorage.getItem("userProfile");
     if (userProfileString) {

@@ -8,12 +8,13 @@ import AccountUsers from "../pages/AccountPage/AccountUsersPage";
 import LogoutPage from "../pages/LoginPage/LogoutPage";
 import ResourceChartPage from "../pages/ResourceChartPage/ResourceChartPage";
 import LoginRedirectPage from "../pages/LoginPage/LoginRedirectPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
 import AccountTeamPage from "../pages/AccountPage/AccountTeamPage";
 import GlobalStyle from "../styles/GlobalStyle";
 import Sidebar from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
 import styled from "styled-components";
-
+import { fetchUserProfile } from "../api/accountApi";
 const MainContent = styled.div`
   margin-left: 13rem;
   padding: 1rem;
@@ -22,10 +23,16 @@ const MainContent = styled.div`
 function App() {
   useEffect(() => {
     const path = window.location.pathname.substring(1);
-    if (path.length > 20) {
-      localStorage.setItem("accessToken", path);
-      window.location.replace("/");
+    async function loadUserprofile() {
+      if (path.length > 20) {
+        localStorage.setItem("accessToken", path);
+        window.location.replace("/");
+        const userProfile = await fetchUserProfile();
+        console.log(userProfile);
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      }
     }
+    loadUserprofile();
   }, []);
   return (
     <Router>
@@ -40,9 +47,10 @@ function App() {
           <Route path="/resource" element={<ResourceChartPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/logout" element={<LogoutPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/account/team" element={<AccountTeamPage />} />
           <Route path="/account-management" element={<AccountUsers />} />
-          <Route path="/auth/google-redirect" element={<LoginRedirectPage />} />
+          <Route path="/auth" element={<LoginRedirectPage />} />
         </Routes>
       </MainContent>
     </Router>
