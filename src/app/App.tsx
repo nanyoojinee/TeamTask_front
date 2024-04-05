@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProjectsPage from "../pages/ProjectsPage/ProjectsPage";
 import ProjectDetailPage from "../pages/ProjectsPage/ProjectDetailPage";
-import AccountPage from "../pages/AccountPage/AccountTeamPage";
 import AccountUsers from "../pages/AccountPage/AccountUsersPage";
 import LogoutPage from "../pages/LoginPage/LogoutPage";
 import ResourceChartPage from "../pages/ResourceChartPage/ResourceChartPage";
@@ -45,7 +44,6 @@ function App() {
           <Route path="/project" element={<ProjectsPage />} />
           <Route path="/project/:id" element={<ProjectDetailPage />} />
           <Route path="/resource" element={<ResourceChartPage />} />
-          <Route path="/account" element={<AccountPage />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/account/team" element={<AccountTeamPage />} />
