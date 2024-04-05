@@ -2,14 +2,9 @@ import { get, post, put, patch } from "./index";
 import { User, Project } from "../types/index";
 import { getToken } from "./token/token";
 
-// Helper function to check if the user is logged in
-const isUserLoggedIn = () => {
-  return !!getToken(); // Convert truthy/falsy value to boolean
-};
-
 // 계정 정보 조회
 export const fetchAccountInfo = async (userId: number): Promise<User> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await get(`/accounts/${userId}`);
@@ -21,7 +16,7 @@ export const updateAccountRole = async (
   userId: number,
   newRole: string
 ): Promise<User> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await put(`/accounts/${userId}`, { role: newRole });
@@ -33,7 +28,7 @@ export const updateAccountLevel = async (
   userId: number,
   newLevel: string
 ): Promise<User> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await put(`/accounts/${userId}/level`, { level: newLevel });
@@ -42,7 +37,7 @@ export const updateAccountLevel = async (
 
 // 사용자 프로필 조회
 export const fetchUserProfile = async (): Promise<User> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await get(`/user/profile`);
@@ -54,7 +49,7 @@ export const updateUser = async (
   userId: number,
   userInfo: Partial<User>
 ): Promise<User> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await patch(`/user/${userId}`, userInfo);
@@ -63,7 +58,7 @@ export const updateUser = async (
 
 // 사용자가 속한 프로젝트 조회
 export const fetchUserProjects = async (): Promise<Project[]> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await get(`/user/project`);
@@ -72,7 +67,7 @@ export const fetchUserProjects = async (): Promise<Project[]> => {
 
 // 모든 사용자 정보 조회
 export const fetchAllUsers = async (): Promise<User[]> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await get(`/user`);
@@ -81,7 +76,7 @@ export const fetchAllUsers = async (): Promise<User[]> => {
 
 // 특정 팀에 속한 사용자 정보 조회
 export const fetchUsersByTeam = async (teamId: number): Promise<User[]> => {
-  if (!isUserLoggedIn()) {
+  if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await get(`/user/${teamId}`);

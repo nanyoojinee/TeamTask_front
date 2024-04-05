@@ -98,27 +98,37 @@ apiClient.interceptors.request.use((request) => {
   }
   return request;
 });
-
+const refreshClient = axios.create({
+  baseURL: serverUrl, // 서버 URL
+  withCredentials: true, // 쿠키를 포함시키기 위해 true로 설정
+});
 apiClient.interceptors.response.use(
-  (response) => response,
+  async (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    // 401 에러가 발생했고, 리트라이하지 않았다면
-    if (error.response.status === 401 && !originalRequest._retry) {
+    // 401 에러가 발생하고, 리트라이하지 않았을 경우
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; // 리트라이 했음을 표시
+
       try {
         // '/auth/refresh' 엔드포인트를 호출하여 액세스 토큰을 재발급 받습니다.
-        // 이때 리프레시 토큰은 서버에서 쿠키를 통해 자동으로 처리됩니다.
-        const { data } = await apiClient.post(`/auth/refresh`);
-        localStorage.setItem("accessToken", data.accessToken); // 새 액세스 토큰 저장
+        const { data } = await refreshClient.post(`/auth/refresh`);
+        localStorage.setItem("accessToken", data.accessToken);
         apiClient.defaults.headers.common["Authorization"] =
-          `Bearer ${data.accessToken}`; // 새 토큰으로 헤더 설정
-        return apiClient(originalRequest); // 원래 요청을 새 토큰으로 재시도
+          `Bearer ${data.accessToken}`;
+
+        // 원본 요청에 새 토큰 설정
+        originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        return apiClient(originalRequest);
       } catch (refreshError) {
+        // 리프레시 토큰 요청 실패 시 처리
         console.error("Unable to refresh access token", refreshError);
+        localStorage.removeItem("accessToken"); // 액세스 토큰 삭제
+        window.location.href = "/login"; // 로그인 페이지로 리다이렉션
         return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );

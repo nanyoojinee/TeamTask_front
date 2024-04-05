@@ -22,16 +22,22 @@ const MainContent = styled.div`
 function App() {
   useEffect(() => {
     const path = window.location.pathname.substring(1);
-    async function loadUserprofile() {
+    async function loadUserProfile() {
       if (path.length > 20) {
+        // Assuming this is your condition to check for a valid token
         localStorage.setItem("accessToken", path);
-        window.location.replace("/");
-        const userProfile = await fetchUserProfile();
-        console.log(userProfile);
-        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+        try {
+          const userProfile = await fetchUserProfile();
+          console.log(userProfile);
+          localStorage.setItem("userProfile", JSON.stringify(userProfile));
+          window.location.replace("/"); // Redirect after the user profile is stored
+        } catch (error) {
+          console.error("Failed to load user profile", error);
+          // Handle failure (e.g., redirect to login page)
+        }
       }
     }
-    loadUserprofile();
+    loadUserProfile();
   }, []);
   return (
     <Router>
