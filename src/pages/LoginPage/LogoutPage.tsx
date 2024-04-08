@@ -1,10 +1,13 @@
 import React from "react";
-import { useState } from "react";
-import { post } from "../../api/index";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"; // useNavigate 훅 사용
+import { logoutAsync } from "../../features/accountManagement/accountSlice";
+import { AppDispatch } from "../../app/store";
+import { post } from "../../api/index";
 
 const LogoutPage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -12,7 +15,11 @@ const LogoutPage: React.FC = () => {
       await post("/auth/logout", {});
       localStorage.removeItem("accessToken"); // 로컬 스토리지의 액세스 토큰 삭제
       localStorage.removeItem("userProfile");
-      alert("로그아웃 되었습니다."); // 사용자에게 로그아웃 알림
+
+      // logoutAsync 액션 디스패치
+      await dispatch(logoutAsync());
+
+      alert("로그아웃 되었습니다.");
       navigate("/"); // 로그인 페이지로 리다이렉트
     } catch (error) {
       console.error("로그아웃 실패", error);

@@ -82,3 +82,8 @@ export const fetchUsersByTeam = async (teamId: number): Promise<User[]> => {
   const response = await get(`/user/${teamId}`);
   return response.data;
 };
+
+export const logoutUser = async (): Promise<void> => {
+  const response = await post("/auth/logout", {});
+  return response.data;
+};

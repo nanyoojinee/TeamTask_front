@@ -26,6 +26,7 @@ const GoogleLoginButton = styled.button`
 
 const LoginPage: React.FC = () => {
   const handleGoogleLogin = (): void => {
+    
     const googleLoginUrl: string = `http://localhost:5001/auth/google-redirect`;
     window.location.href = googleLoginUrl;
   };

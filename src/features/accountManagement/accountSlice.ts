@@ -4,9 +4,10 @@ import {
   fetchUserProfile,
   updateUser,
   fetchUserProjects,
+  logoutUser,
 } from "../../api/accountApi";
 import { User, Project } from "../../types/index";
-
+import { post } from "../../api/index";
 interface ChangeRolePayload {
   userId: number;
   newRole: string;
@@ -48,6 +49,20 @@ export const updateUserProfile = createAsyncThunk(
     return response;
   }
 );
+export const logoutAsync = createAsyncThunk(
+  "account/logout",
+  async (_, thunkAPI) => {
+    try {
+      const response = await logoutUser();
+      // 성공적으로 로그아웃한 경우, 여기서 로컬 스토리지를 정리할 수도 있습니다.
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userProfile");
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 // // 사용자 정보 수정
 // export const updateUserProfile = createAsyncThunk(
@@ -78,9 +93,19 @@ export const fetchUserProfileThunk = createAsyncThunk(
 const accountSlice = createSlice({
   name: "account",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.userInfo = null;
+      state.userProjects = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
+      .addCase(logoutAsync.fulfilled, (state) => {
+        // 로그아웃 성공 시 상태 업데이트
+        state.userInfo = null;
+        state.userProjects = [];
+      })
       .addCase(getAccountInfo.pending, (state) => {
         state.isLoading = true;
       })
@@ -117,5 +142,5 @@ const accountSlice = createSlice({
       });
   },
 });
-
+export const { logout } = accountSlice.actions;
 export default accountSlice.reducer;
