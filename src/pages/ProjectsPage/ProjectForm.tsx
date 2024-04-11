@@ -1,5 +1,5 @@
 // src/components/ProjectList.tsx
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { ProjectFormHeader } from "./ProjectFormHeader";
 import { Project } from "../../types/index";
@@ -36,21 +36,24 @@ const DetailButton = styled.button`
     background-color: #0056b3;
   }
 `;
-const SmallCircle = styled.div<{ bgColor: string }>`
+
+export const SmallCircle = styled.div<{ bgColor: string }>`
   background-color: ${({ bgColor }) => bgColor}; // 배경색을 props에서 받음
-  border-radius: 10rem; // 원형 모양
-  padding: 0.5rem 2rem;
-  width: auto; // 작은 원의 너비
-  height: 2.5vh; // 작은 원의 높이
-  display: inline-flex; // flex 아이템으로 표시
+  border-radius: 3rem; // 완벽한 원형 모양
+  width: 7rem; // 고정된 너비
+  height: 3rem; // 고정된 높이
+  display: flex; // flex 아이템으로 표시
   justify-content: center; // 가로 중앙 정렬
   align-items: center; // 세로 중앙 정렬
-  font-size: 15px;
+  font-size: 15px; // 폰트 사이즈 조정이 필요할 수 있음
 `;
 
-const DetailValue = styled.div<{ flexValue?: number }>`
+export const DetailValue = styled.div<{ flexValue?: number }>`
   flex: ${({ flexValue }) => flexValue || 1};
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Separator = styled.span`
@@ -69,7 +72,6 @@ export const Separator = styled.span`
     transform: translateX(-50%);
   }
 `;
-
 
 export const ProjectForm = ({
   viewType,

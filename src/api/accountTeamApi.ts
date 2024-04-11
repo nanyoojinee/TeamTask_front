@@ -9,7 +9,7 @@ interface PatchResponse {
 export const updateTeam = async (team: number): Promise<PatchResponse> => {
   try {
     const accessToken = localStorage.getItem("accessToken"); // 로컬 스토리지에서 토큰을 가져옵니다.
-    console.log(accessToken);
+    console.log("team", team);
     const response = await patch("/auth/team", { team }); // patch 함수 호출 시, 액세스 토큰 처리는 생략
     return {
       success: true,

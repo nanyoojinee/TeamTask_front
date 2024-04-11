@@ -95,40 +95,40 @@ apiClient.interceptors.request.use((request) => {
   const accessToken = getAccessToken();
   if (accessToken) {
     request.headers.Authorization = `Bearer ${accessToken}`;
-  } else {
-    // 액세스 토큰이 없는 경우, 로그아웃 상태로 간주하고 요청 취소
-    throw new axios.Cancel("No access token available, cancelling request");
   }
   return request;
 });
-
+const refreshClient = axios.create({
+  baseURL: serverUrl, // 서버 URL
+  withCredentials: true, // 쿠키를 포함시키기 위해 true로 설정
+});
 apiClient.interceptors.response.use(
-  (response) => response,
+  async (response) => response,
   async (error) => {
-    if (axios.isCancel(error)) {
-      // 요청이 취소된 경우, 이 부분에서 에러를 처리합니다.
-      console.error("Request cancelled:", error.message);
-      return Promise.reject(error);
-    }
-
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    // 401 에러가 발생하고, 리트라이하지 않았을 경우
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // 리트라이 했음을 표시
+
       try {
-        // 리프레시 토큰 요청 시도
-        const { data } = await apiClient.post(`/auth/refresh`);
-        console.log("data.access!!!", data.accessToken);
+        // '/auth/refresh' 엔드포인트를 호출하여 액세스 토큰을 재발급 받습니다.
+        const { data } = await refreshClient.post(`/auth/refresh`);
         localStorage.setItem("accessToken", data.accessToken);
         apiClient.defaults.headers.common["Authorization"] =
           `Bearer ${data.accessToken}`;
+
+        // 원본 요청에 새 토큰 설정
+        originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
         return apiClient(originalRequest);
       } catch (refreshError) {
+        // 리프레시 토큰 요청 실패 시 처리
         console.error("Unable to refresh access token", refreshError);
-        localStorage.removeItem("accessToken"); // 액세스 토큰 제거
+        localStorage.removeItem("accessToken"); // 액세스 토큰 삭제
         window.location.href = "/login"; // 로그인 페이지로 리다이렉션
         return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
