@@ -16,7 +16,7 @@ import styled from "styled-components";
 import { fetchUserProfile } from "../api/accountApi";
 const MainContent = styled.div`
   margin-left: 13rem;
-  padding: 1rem;
+  padding: 0;
 `;
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
           const userProfile = await fetchUserProfile();
           console.log(userProfile);
           localStorage.setItem("userProfile", JSON.stringify(userProfile));
-          window.location.replace("/"); 
+          window.location.replace("/");
         } catch (error) {
           console.error("Failed to load user profile", error);
         }

@@ -12,6 +12,8 @@ import { Project } from "../../types/index";
 import { AppDispatch } from "../../app/store";
 const Container = styled.div`
   padding: 1rem;
+  margin: 2rem;
+  margin-top: 0;
 `;
 
 const Header = styled.div`
