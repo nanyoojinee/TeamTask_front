@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 import ProjectsPage from "../pages/ProjectsPage/ProjectsPage";
 import ProjectDetailPage from "../pages/ProjectsPage/ProjectDetailPage";
+import AccountPage from "../pages/AccountPage/AccountTeamPage";
 import AccountUsers from "../pages/AccountPage/AccountUsersPage";
 import LogoutPage from "../pages/LoginPage/LogoutPage";
 import ResourceChartPage from "../pages/ResourceChartPage/ResourceChartPage";
@@ -16,26 +17,22 @@ import styled from "styled-components";
 import { fetchUserProfile } from "../api/accountApi";
 const MainContent = styled.div`
   margin-left: 13rem;
-  padding: 0;
+  padding: 1rem;
 `;
 
 function App() {
   useEffect(() => {
     const path = window.location.pathname.substring(1);
-    async function loadUserProfile() {
+    async function loadUserprofile() {
       if (path.length > 20) {
         localStorage.setItem("accessToken", path);
-        try {
-          const userProfile = await fetchUserProfile();
-          console.log(userProfile);
-          localStorage.setItem("userProfile", JSON.stringify(userProfile));
-          window.location.replace("/");
-        } catch (error) {
-          console.error("Failed to load user profile", error);
-        }
+        window.location.replace("/");
+        const userProfile = await fetchUserProfile();
+        console.log(userProfile);
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
       }
     }
-    loadUserProfile();
+    loadUserprofile();
   }, []);
   return (
     <Router>
@@ -48,6 +45,7 @@ function App() {
           <Route path="/project" element={<ProjectsPage />} />
           <Route path="/project/:id" element={<ProjectDetailPage />} />
           <Route path="/resource" element={<ResourceChartPage />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/logout" element={<LogoutPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/account/team" element={<AccountTeamPage />} />

@@ -37,16 +37,14 @@ const AccountUsersPage = () => {
     setEditUserId(user.id);
     setPosition(user.position || "");
     setTeam(user.team ?? null);
-    console.log(user);
   };
 
   const handleUpdateProfile = async () => {
     if (editUserId === null) return;
 
-    // 'position'을 'role'로 변경
-    const updatedInfo = { role: position, team: team };
-
+    const updatedInfo = { position, team };
     try {
+      console.log(users);
       await dispatch(
         updateUserProfile({ userId: editUserId, userInfo: updatedInfo })
       ).unwrap();
@@ -67,7 +65,7 @@ const AccountUsersPage = () => {
       <ul>
         {users.map((user) => (
           <li key={user.id} style={{ cursor: "pointer" }}>
-            {user.name} {user.team}팀 {user.role}
+            {user.name} {user.team}팀 {user.position}
             <button onClick={() => handleEditClick(user)}>Edit</button>
           </li>
         ))}
