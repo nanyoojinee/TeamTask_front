@@ -173,29 +173,24 @@ const Header = () => {
   const [userInfoFromStorage, setUserInfoFromStorage] = useState<User | null>(
     () => {
       const storedUserInfo = localStorage.getItem("userProfile");
-      return storedUserInfo ? JSON.parse(storedUserInfo) : null;
+      return storedUserInfo ? JSON.parse(storedUserInfo) : { name: "게스트" };
     }
   );
 
-  // 로컬 스토리지의 변경 감지
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "userProfile") {
         setUserInfoFromStorage(
-          event.newValue ? JSON.parse(event.newValue) : null
+          event.newValue ? JSON.parse(event.newValue) : { name: "게스트" }
         );
       }
     };
-
     window.addEventListener("storage", handleStorageChange);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
-  // 최종 사용자 정보 결정 (리덕스 스토어 또는 로컬 스토리지)
   const userInfo = userInfoFromStore || userInfoFromStorage;
 
   return (
@@ -203,7 +198,9 @@ const Header = () => {
       <Logo>MyApp</Logo>
       <UserInfo>
         <UserName>
-          {userInfo ? `${userInfo.name}님 반갑습니다 🙌` : "반갑습니다 🙌"}
+          {userInfo && userInfo.name
+            ? `${userInfo.name}님 반갑습니다 🙌`
+            : "반갑습니다 🙌"}
         </UserName>
         <IconContainer>
           <IoIosNotificationsOutline />

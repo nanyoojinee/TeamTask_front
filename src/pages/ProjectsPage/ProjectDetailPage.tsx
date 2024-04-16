@@ -231,19 +231,63 @@ const DetailName = styled.div`
   align-items: center;
   margin-right: 0.8rem;
 `;
+const EditableInput = styled.input`
+  border: none;
+  text-align: center;
+`;
 const ProjectDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
-
+  const [status, setStatus] = useState("");
+  const [progressStage, setProgressStage] = useState("");
+  const [buildStage, setBuildStage] = useState("");
+  const [creationStage, setcreationStage] = useState("");
   useEffect(() => {
     const loadProject = async () => {
       if (!id) return;
       const fetchedProject = await fetchProjectById(parseInt(id));
       setProject(fetchedProject);
+      setStatus(fetchedProject.status || "");
+      setProgressStage(fetchedProject.progressStage || "");
+      setBuildStage(fetchedProject.buildStage || "");
+      setcreationStage(fetchedProject.creationStage || "");
     };
     loadProject();
   }, [id]);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!id) return;
+
+    // 수정된 필드만 포함된 객체 생성
+    const updatedProjectData: UpdateProject = {
+      status: status,
+      progressStage: progressStage,
+      buildStage: buildStage,
+      creationStage: creationStage,
+    };
+
+    await updateProject(parseInt(id), updatedProjectData); // 수정된 API 함수 사용
+    alert("프로젝트 정보가 업데이트되었습니다.");
+    navigate("/project"); // 업데이트 후 프로젝트 목록 페이지로 이동
+  };
+
+  const handleDelete = async () => {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this project?"
+    );
+    if (confirmation && id) {
+      try {
+        await deleteProject(parseInt(id)); // Use the delete function
+        alert("Project has been successfully deleted.");
+        navigate("/project"); // Redirect to the projects listing page
+      } catch (error) {
+        console.error("Error deleting project:", error);
+        alert("Failed to delete the project.");
+      }
+    }
+  };
 
   if (!project) return <Container>Loading...</Container>;
 
@@ -256,11 +300,23 @@ const ProjectDetailPage = () => {
         </ProjectHeader>
         <Section>
           <ProjectDetail>
-            <DetailName>상태</DetailName>{" "}
-            <SmallCircle bgColor="#ffa500">{project.status}</SmallCircle>
+            <label htmlFor="status">상태</label>
+            <EditableInput
+              id="status"
+              type="text"
+              value={status || ""} // 초기값으로 status 상태 사용
+              onChange={(e) => setStatus(e.target.value)}
+            />
+            <SmallCircle bgColor="#ffa500"></SmallCircle>
           </ProjectDetail>
           <ProjectDetail>
-            <DetailName>진행단계</DetailName>{" "}
+            <label htmlFor="progressStage">진행단계</label>
+            <EditableInput
+              id="progressStage"
+              type="text"
+              value={progressStage}
+              onChange={(e) => setProgressStage(e.target.value)}
+            />
             <SmallCircle bgColor="#90ee90">{project.progressStage}</SmallCircle>
           </ProjectDetail>
           <ProjectDetail>

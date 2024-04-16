@@ -6,6 +6,7 @@ export interface User {
   role: string;
   position: string | null;
   team: number | null;
+  status: string | null;
 }
 
 // export interface Project {
