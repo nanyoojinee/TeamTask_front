@@ -7,6 +7,7 @@ export interface User {
   position: string | null;
   team: number | null;
   status: string | null;
+  modifiedDate: string | null;
 }
 
 // export interface Project {

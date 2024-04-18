@@ -53,6 +53,7 @@ export const updateUser = async (
     throw new Error("Unauthorized - User is logged out.");
   }
   const response = await patch(`/user/${userId}`, userInfo);
+  console.log(response.data);
   return response.data;
 };
 
@@ -66,11 +67,15 @@ export const fetchUserProjects = async (): Promise<Project[]> => {
 };
 
 // 모든 사용자 정보 조회
-export const fetchAllUsers = async (): Promise<User[]> => {
+// accountApi.ts
+export const fetchAllUsers = async (searchTerm?: string): Promise<User[]> => {
   if (!getToken()) {
     throw new Error("Unauthorized - User is logged out.");
   }
-  const response = await get(`/user`);
+  const query = searchTerm ? `?name=${encodeURIComponent(searchTerm)}` : "";
+  console.log(`/user${query}`);
+  const response = await get(`/user${query}`);
+  console.log(response);
   return response.data;
 };
 

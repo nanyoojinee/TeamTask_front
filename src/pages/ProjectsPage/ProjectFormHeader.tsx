@@ -15,10 +15,6 @@ const HeaderItem = styled.div<{ flexValue?: number }>`
   text-align: center;
 `;
 
-const DetailValue = styled.div<{ flexValue?: number }>`
-  flex: ${({ flexValue }) => flexValue || 1}; // 기본값은 1, 변경 가능
-  text-align: center;
-`;
 
 export const ProjectFormHeader = () => {
   return (

@@ -137,7 +137,7 @@ async function get(
   endpoint: string,
   params: string = ""
 ): Promise<AxiosResponse> {
-  return apiClient.get(`${endpoint}/${params}`);
+  return apiClient.get(`${endpoint}${params}`);
 }
 
 async function post(endpoint: string, data: any): Promise<AxiosResponse> {
